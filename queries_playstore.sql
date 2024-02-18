@@ -56,3 +56,20 @@ SELECT app_name, reviews, min_installs, min_installs / reviews AS proportion FRO
 WHERE min_installs > 100000
 ORDER BY min_installs / reviews desc
 LIMIT 1;
+--FS 1 Query
+SELECT app_name, rating, category FROM analytics
+  WHERE (rating, category) in (
+    SELECT MAX(rating), category FROM analytics
+      WHERE min_installs >= 50000
+      GROUP BY category
+    )
+  ORDER BY category;
+--FS 2 Query
+SELECT app_name FROM analytics
+WHERE app_name ILIKE '%facebook%';
+--FS 3 Query
+SELECT * FROM analytics
+WHERE array_length(genres, 1) > 1;
+--FS 4 Query
+SELECT * FROM analytics
+WHERE genres @> '{"Education"}';
